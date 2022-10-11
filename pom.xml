@@ -15,7 +15,6 @@
 	<description>coffeeDiaty backend project for Spring Boot</description>
 	<properties>
 		<java.version>11</java.version>
-		<spring-security.version>5.1.7.RELEASE</spring-security.version>
 	</properties>
 	<dependencies>
 		<dependency>
