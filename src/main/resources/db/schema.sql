@@ -12,3 +12,10 @@ CREATE TABLE IF NOT EXISTS users(
 	updated_at TIMESTAMP NOT NULL DEFAULT NOW(),
 	password_error_count INTEGER NOT NULL DEFAULT 0 CHECK(password_error_count >= 0 AND password_error_count <= 5)
 );
+
+CREATE VIEW users_view AS SELECT
+	user_id,
+	email,
+	user_name,
+	status
+	FROM users;
