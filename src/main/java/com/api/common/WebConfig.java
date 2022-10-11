@@ -5,6 +5,9 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import com.api.common.tools.DatabaseAccessTools;
+
+
 @Configuration
 public class WebConfig {
 	
@@ -15,5 +18,14 @@ public class WebConfig {
 	@Bean
 	PasswordEncoder passwordEncoder() {
 		return PasswordEncoderFactories.createDelegatingPasswordEncoder();
+	}
+	
+	/**
+	 * データベースにアクセスする際に使用するメソッドの追加
+	 * @return {@link DatabaseAccessTools}
+	 */
+	@Bean
+	DatabaseAccessTools databaseAccessTools() {
+		return new DatabaseAccessTools();
 	}
 }
