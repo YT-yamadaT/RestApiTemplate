@@ -27,8 +27,8 @@ public class UserRepositoryImpl implements UserRepository {
 	/**SQL ユーザ全件取得*/
 	private static final String SQL_SELECT_ALL = "SELECT * FROM users_view";
 	
-	/**SQL ユーザ一件取得(ログイン時に使用するデータのみ)*/
-	private static final String SQL_SELECT_ONE_LOGIN = "SELECT user_id, user_name, status, role FROM users WHERE user_id = :userId";
+	/**SQL ユーザ一件取得*/
+	private static final String SQL_SELECT_ONE = "SELECT * FROM users_view WHERE user_id = :userId";
 	
 	@Override
 	public List<UserData> findAll() {
@@ -39,7 +39,7 @@ public class UserRepositoryImpl implements UserRepository {
 	public UserData findOne(String userId) {
 		Map<String, Object> params = Map.of(
 				"userId", userId);
-		return jdbc.queryForObject(SQL_SELECT_ONE_LOGIN, params, UserMapper);
+		return jdbc.queryForObject(SQL_SELECT_ONE, params, UserMapper);
 	}
 
 
