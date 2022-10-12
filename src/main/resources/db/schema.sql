@@ -13,6 +13,10 @@ CREATE TABLE IF NOT EXISTS users(
 	password_error_count INTEGER NOT NULL DEFAULT 0 CHECK(password_error_count >= 0 AND password_error_count <= 5)
 );
 
+
+--Views
+
+--ユーザビュー
 CREATE VIEW users_view AS SELECT
 	user_id,
 	email,
