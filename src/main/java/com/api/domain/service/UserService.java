@@ -1,6 +1,6 @@
 package com.api.domain.service;
 
-import com.api.domain.request.Request;
+import com.api.controller.form.Request;
 import com.api.domain.response.Response;
 import com.api.domain.service.userServiceImpl.GetUsersService;
 

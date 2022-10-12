@@ -4,8 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.api.common.tools.DatabaseAccessTools;
+import com.api.controller.form.Request;
 import com.api.domain.repository.UserRepositoryImpl;
-import com.api.domain.request.Request;
 import com.api.domain.response.Response;
 import com.api.domain.response.entity.UserEntity;
 import com.api.domain.service.UserService;
