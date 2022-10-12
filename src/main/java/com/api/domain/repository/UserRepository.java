@@ -2,7 +2,6 @@ package com.api.domain.repository;
 
 import java.util.List;
 
-import com.api.domain.response.data.LoginUserData;
 import com.api.domain.response.data.UserData;
 
 /**
@@ -20,11 +19,11 @@ public interface UserRepository {
 	public List<UserData> findAll();
 	
 	/**
-	 * ログイン成功時にユーザ情報を取得する
+	 *ユーザ情報を一件取得する
 	 * 
 	 * @param userId
 	 * @return userData
 	 */
-	public LoginUserData findOne(String userId);
+	public UserData findOne(String userId);
 	
 }

@@ -1,5 +1,7 @@
 package com.api.domain.response.data;
 
+import com.api.domain.response.Response;
+
 import lombok.Data;
 
 /**
@@ -8,7 +10,7 @@ import lombok.Data;
  *
  */
 @Data
-public class UserData {
+public class UserData implements Response{
 
 	/**ユーザID*/
 	private String userId;
@@ -18,6 +20,9 @@ public class UserData {
 	
 	/**ユーザ名*/
 	private String userName;
+	
+	/**権限*/
+	private String role;
 	
 	/**ユーザのステータス*/
 	private String status;

@@ -23,7 +23,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.web.filter.GenericFilterBean;
 
 import com.api.domain.repository.UserRepository;
-import com.api.domain.response.data.LoginUserData;
+import com.api.domain.response.data.UserData;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
@@ -107,7 +107,7 @@ public class JwtTokenFilter extends GenericFilterBean {
 		// ユーザID取り出し
 		String userId = String.valueOf(jwt.getSubject());		
 		// ユーザ情報取得
-		LoginUserData userData = userRepository.findOne(userId);
+		UserData userData = userRepository.findOne(userId);
 		// 権限の整形
 		Collection<GrantedAuthority> authorities = Set.of(new SimpleGrantedAuthority(String.valueOf(userData.getRole())));
 		// ユーザ情報の整形

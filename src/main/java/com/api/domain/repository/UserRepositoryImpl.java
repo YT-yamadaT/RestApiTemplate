@@ -9,7 +9,6 @@ import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 
-import com.api.domain.response.data.LoginUserData;
 import com.api.domain.response.data.UserData;
 
 @Repository
@@ -18,11 +17,6 @@ public class UserRepositoryImpl implements UserRepository {
 	@Autowired
 	private NamedParameterJdbcTemplate jdbc;
 	
-	/** 
-	 * {@link LoginUserData}のマッパー
-	 * DBからアクセスしてきた値をLoginUserDataに加工する
-	 */
-	private static RowMapper<LoginUserData> LoginUserMapper = BeanPropertyRowMapper.newInstance(LoginUserData.class);
 	
 	/** 
 	 * {@link LoginUserData}のマッパー
@@ -42,10 +36,10 @@ public class UserRepositoryImpl implements UserRepository {
 	}
 	
 	@Override
-	public LoginUserData findOne(String userId) {
+	public UserData findOne(String userId) {
 		Map<String, Object> params = Map.of(
 				"userId", userId);
-		return jdbc.queryForObject(SQL_SELECT_ONE_LOGIN, params, LoginUserMapper);
+		return jdbc.queryForObject(SQL_SELECT_ONE_LOGIN, params, UserMapper);
 	}
 
 
