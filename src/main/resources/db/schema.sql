@@ -21,5 +21,6 @@ CREATE VIEW users_view AS SELECT
 	user_id,
 	email,
 	user_name,
+	role,
 	status
 	FROM users;
