@@ -3,6 +3,7 @@ package com.api.security;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Objects;
 import java.util.Set;
 
@@ -31,6 +32,9 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
 public class JwtTokenFilter extends GenericFilterBean {
+	
+	//有効期限(1h)
+	private static final long EXPIRATION_TIME = 1000L * 60L * 60L;
 
 	final private UserRepository userRepository;
 	final private Algorithm algorithm;
@@ -58,8 +62,13 @@ public class JwtTokenFilter extends GenericFilterBean {
 		}
 		
 		try {
-			authentication(verifyToken(token));
+			UserData userData = authentication(verifyToken(token));
 			
+			//認証成功
+			//新規Tokenの発行
+			String newToken = this.updateToken(userData);
+			//TODO 発行する前のTokenをどうにかして削除したい...
+			this.setToken((HttpServletResponse) response, newToken);
 
 		} catch (JWTVerificationException | DataAccessException e) {
 			//認証失敗
@@ -103,7 +112,7 @@ public class JwtTokenFilter extends GenericFilterBean {
 		return verifier.verify(token);
 	}
 	
-	private String authentication(DecodedJWT jwt) {
+	private UserData authentication(DecodedJWT jwt) {
 		// ユーザID取り出し
 		String userId = String.valueOf(jwt.getSubject());		
 		// ユーザ情報取得
@@ -115,8 +124,37 @@ public class JwtTokenFilter extends GenericFilterBean {
 		// Principalの準備
 		SecurityContextHolder.getContext().setAuthentication(new UsernamePasswordAuthenticationToken(user, null, user.getAuthorities()));
 		
-		return userId;
+		return userData;
 	}
 	
+	/**
+	 * Tokenの期限を増やす
+	 * @param userData
+	 * @return newToken
+	 */
+	private String updateToken(UserData userData) {
+		Date issuedAt = new Date();
+		Date notBefore = new Date(issuedAt.getTime());
+		Date expiresAt = new Date(issuedAt.getTime() + EXPIRATION_TIME);
+		String token = JWT.create()
+				.withClaim("authority", userData.getRole())
+				// 発行時間
+				.withIssuedAt(issuedAt)
+				// 有効期限の開始時間
+				.withNotBefore(notBefore)
+				// 有効期限の終了時間
+				.withExpiresAt(expiresAt)
+				// JWTの主体,ユーザIDがユニークな値のため使用
+				.withSubject(userData.getUserId()).sign(this.algorithm);
+		return token;
+	}
 	
+	/**
+	 * トークンをセットする
+	 * @param response
+	 * @param token
+	 */
+	private void setToken(HttpServletResponse response, String token) {
+		response.setHeader("Authorization", String.format("Bearer %s", token));
+	}
 }
